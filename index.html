@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mis 15 – Coquette · Valentina</title>
+<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&family=Josefin+Sans:wght@100;300;400&family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blush:#ffb6c1;--rose:#ff8da1;--deep:#c2185b;
+  --soft:#fff0f3;--card:#1a0d12;--dark:#110009;
+  --gold:#f5c8d0;--white:#fff;--mid:#c48090;
+}
+html{scroll-behavior:smooth}
+body{background:var(--dark);font-family:'Josefin Sans',sans-serif;color:var(--white);overflow-x:hidden;cursor:none}
+
+/* cursor */
+#cur{position:fixed;width:10px;height:10px;border-radius:50%;background:var(--blush);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:screen}
+#cur-ring{position:fixed;width:32px;height:32px;border-radius:50%;border:1px solid var(--rose);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .14s ease}
+
+/* nav dots */
+#nav{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:800;display:flex;flex-direction:column;gap:10px}
+.nd{width:7px;height:7px;border-radius:50%;border:1.5px solid var(--blush);background:transparent;cursor:none;transition:all .3s}
+.nd.active,.nd:hover{background:var(--blush);transform:scale(1.3);box-shadow:0 0 8px var(--blush)}
+
+/* music */
+#mbtn{position:fixed;bottom:24px;right:24px;width:52px;height:52px;border-radius:50%;background:var(--rose);border:none;color:#fff;font-size:20px;cursor:none;z-index:700;box-shadow:0 0 20px rgba(255,141,161,.4);display:flex;align-items:center;justify-content:center;transition:all .3s}
+#mbtn:hover{background:var(--deep);transform:scale(1.08)}
+#mbtn.playing{animation:mglow 2s ease-in-out infinite}
+@keyframes mglow{0%,100%{box-shadow:0 0 20px rgba(255,141,161,.4)}50%{box-shadow:0 0 40px rgba(255,141,161,.8),0 0 60px rgba(194,24,91,.3)}}
+#mlbl{position:fixed;bottom:32px;right:82px;background:rgba(26,13,18,.9);border:1px solid var(--blush);color:var(--blush);font-size:9px;letter-spacing:.3em;text-transform:uppercase;padding:7px 12px;pointer-events:none;z-index:699;opacity:0;transition:opacity .3s;white-space:nowrap;font-family:'Josefin Sans',sans-serif}
+#mlbl.show{opacity:1}
+
+/* secciones */
+section{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 24px;position:relative;overflow:hidden}
+section:not(#s0){border-top:1px solid rgba(255,182,193,.08)}
+
+.sec-title{font-family:'Pinyon Script',cursive;font-size:clamp(40px,8vw,64px);color:var(--blush);text-align:center;margin-bottom:4px;filter:drop-shadow(0 0 20px rgba(255,182,193,.3))}
+.sec-sub{font-size:9px;letter-spacing:.6em;color:var(--mid);text-transform:uppercase;text-align:center;margin-bottom:32px;font-family:'Josefin Sans',sans-serif;font-weight:100}
+
+/* ══ S0 PORTADA ══ */
+#s0{padding:0;background:var(--dark)}
+.slider{position:absolute;inset:0;z-index:0}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity 2s ease-in-out;background-size:cover;background-position:center}
+.slide.active{opacity:1}
+.ov-dark{position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom,rgba(45,25,35,.3),rgba(255,200,220,.12),rgba(26,13,18,.82))}
+.ov-color{position:absolute;inset:0;z-index:2;background:radial-gradient(ellipse at 30% 40%,rgba(194,24,91,.08),transparent 55%),radial-gradient(ellipse at 70% 60%,rgba(255,182,193,.06),transparent 55%);animation:colorPulse 7s ease-in-out infinite alternate}
+@keyframes colorPulse{from{opacity:.6}to{opacity:1}}
+#glitter{position:absolute;inset:0;z-index:3;pointer-events:none}
+
+/* moños decorativos */
+.bow{position:absolute;font-size:clamp(20px,4vw,32px);opacity:.25;animation:bowFloat ease-in-out infinite alternate;z-index:4;pointer-events:none}
+@keyframes bowFloat{from{transform:translateY(0) rotate(-5deg)}to{transform:translateY(-12px) rotate(5deg)}}
+
+.hero-content{position:relative;z-index:5;text-align:center;padding:20px}
+.hero-tag{font-size:9px;letter-spacing:.7em;color:var(--blush);text-transform:uppercase;margin-bottom:14px;opacity:0;animation:fadeUp .8s .3s forwards;font-family:'Josefin Sans',sans-serif;font-weight:100}
+.hero-15{font-family:'Pinyon Script',cursive;font-size:clamp(110px,24vw,190px);line-height:.85;background:linear-gradient(180deg,#fff 0%,var(--blush) 40%,rgba(255,141,161,.3) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 40px rgba(255,182,193,.4));opacity:0;animation:fadeUp 1s .5s forwards}
+.hero-años{font-size:10px;letter-spacing:.7em;color:var(--blush);text-transform:uppercase;opacity:0;animation:fadeUp .8s .8s forwards;font-family:'Josefin Sans',sans-serif;font-weight:100;margin-top:-8px}
+.hero-name{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,9vw,70px);font-style:italic;font-weight:300;color:var(--white);margin:6px 0;opacity:0;animation:fadeUp 1s 1s forwards;text-shadow:0 2px 20px rgba(255,182,193,.2)}
+.gold-line{width:220px;height:1px;background:linear-gradient(90deg,transparent,var(--blush),var(--rose),var(--blush),transparent);margin:14px auto;opacity:0;animation:fadeUp .8s 1.2s forwards}
+.hero-date{font-size:12px;letter-spacing:.3em;color:rgba(255,220,230,.8);opacity:0;animation:fadeUp .8s 1.4s forwards;font-family:'Josefin Sans',sans-serif;font-weight:100}
+.hero-scroll{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:5;font-size:8px;letter-spacing:.5em;color:var(--blush);text-transform:uppercase;opacity:0;animation:fadeUp .8s 2s forwards;display:flex;flex-direction:column;align-items:center;gap:6px;font-family:'Josefin Sans',sans-serif}
+.scroll-arr{width:1px;height:26px;background:linear-gradient(var(--blush),transparent);animation:arrBounce 1.5s ease-in-out infinite}
+@keyframes arrBounce{0%,100%{transform:scaleY(1);opacity:1}50%{transform:scaleY(.6);opacity:.4}}
+.sdots{position:absolute;bottom:58px;left:50%;transform:translateX(-50%);z-index:5;display:flex;gap:8px}
+.sdot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.25);cursor:none;transition:all .3s}
+.sdot.active{background:var(--blush);transform:scale(1.4)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* ══ S1 DETALLES ══ */
+#s1{background:#120609}
+#s1::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(194,24,91,.05),transparent 70%)}
+.d-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;max-width:500px;width:100%;position:relative;z-index:1}
+.d-card{background:rgba(26,13,18,.7);border:1px solid rgba(255,182,193,.15);padding:22px 16px;text-align:center;position:relative;overflow:hidden;backdrop-filter:blur(8px)}
+.d-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--blush),var(--rose),transparent)}
+.d-card .di{font-size:22px;margin-bottom:8px}
+.d-card .dl{font-size:8px;letter-spacing:.4em;color:var(--blush);text-transform:uppercase;margin-bottom:4px;font-family:'Josefin Sans',sans-serif;font-weight:100}
+.d-card .dv{font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:var(--white);line-height:1.4}
+.d-full{grid-column:1/-1;background:linear-gradient(135deg,rgba(194,24,91,.08),rgba(255,182,193,.06));border-color:rgba(255,182,193,.2)}
+.cd{display:flex;justify-content:center;gap:12px;margin-top:10px}
+.cdb{text-align:center;min-width:52px}
+.cn{font-family:'Pinyon Script',cursive;font-size:42px;color:var(--blush);line-height:1;filter:drop-shadow(0 0 10px rgba(255,182,193,.3))}
+.cl{font-size:8px;letter-spacing:.3em;color:var(--mid);text-transform:uppercase;font-family:'Josefin Sans',sans-serif;font-weight:100}
+
+/* ══ PARALLAX ══ */
+.px-section{position:relative;height:55vh;min-height:300px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.px-bg{position:absolute;inset:-30%;background-size:cover;background-position:center;background-attachment:fixed;z-index:0}
+.px-ov{position:absolute;inset:0;z-index:1}
+.px-content{position:relative;z-index:2;text-align:center;padding:20px}
+.px-tag{font-size:9px;letter-spacing:.6em;color:var(--blush);text-transform:uppercase;margin-bottom:10px;opacity:0;transform:translateY(18px);transition:all .8s;font-family:'Josefin Sans',sans-serif;font-weight:100}
+.px-quote{font-family:'Pinyon Script',cursive;font-size:clamp(24px,5vw,44px);color:var(--white);line-height:1.3;text-shadow:0 2px 30px rgba(0,0,0,.7);opacity:0;transform:translateY(22px);transition:all 1s .2s}
+.px-line{width:140px;height:1px;background:linear-gradient(90deg,transparent,var(--blush),var(--rose),transparent);margin:12px auto;opacity:0;transform:scaleX(0);transition:all .8s .4s}
+.px-sub{font-size:10px;letter-spacing:.35em;color:var(--blush);text-transform:uppercase;opacity:0;transform:translateY(14px);transition:all .8s .5s;font-family:'Josefin Sans',sans-serif;font-weight:100}
+.px-section.visible .px-tag,.px-section.visible .px-quote,.px-section.visible .px-sub{opacity:1;transform:translateY(0)}
+.px-section.visible .px-line{opacity:1;transform:scaleX(1)}
+
+/* ══ S2 MAPA ══ */
+#s2{background:var(--dark)}
+.map-wrap{width:100%;max-width:540px;border:1px solid rgba(255,182,193,.2);overflow:hidden;position:relative;z-index:1}
+.map-wrap iframe{width:100%;height:280px;border:none;display:block;filter:grayscale(.8) sepia(.3) hue-rotate(300deg) brightness(.7)}
+.map-acts{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;justify-content:center;position:relative;z-index:1}
+.map-btn{display:inline-flex;align-items:center;gap:7px;padding:12px 20px;font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:.3em;text-transform:uppercase;text-decoration:none;border:1px solid var(--blush);color:var(--blush);transition:all .3s;cursor:none;font-weight:300}
+.map-btn:hover,.map-btn.fill{background:var(--blush);color:var(--dark)}
+
+/* ══ S3 DRESS CODE ══ */
+#s3{background:#120609}
+.dc-pills{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;max-width:460px;position:relative;z-index:1}
+.dcp{padding:10px 18px;border:1px solid rgba(255,182,193,.25);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:var(--white);background:rgba(26,13,18,.6)}
+.sw-wrap{display:flex;gap:10px;margin-top:16px;justify-content:center;position:relative;z-index:1}
+.sw{width:34px;height:34px;border-radius:50%;border:2px solid rgba(255,255,255,.15)}
+.dc-note{font-size:9px;letter-spacing:.3em;color:var(--mid);margin-top:12px;text-align:center;position:relative;z-index:1;font-family:'Josefin Sans',sans-serif;font-weight:100}
+
+/* ══ S4 RSVP ══ */
+#s4{background:var(--dark)}
+.rsvp-box{max-width:460px;width:100%;display:flex;flex-direction:column;gap:12px;position:relative;z-index:1}
+.rsvp-box input,.rsvp-box select,.rsvp-box textarea{width:100%;padding:12px 14px;border:1px solid rgba(255,182,193,.2);background:rgba(26,13,18,.7);font-family:'Josefin Sans',sans-serif;font-size:12px;color:var(--white);outline:none;transition:border-color .3s;resize:none;font-weight:300}
+.rsvp-box input:focus,.rsvp-box select:focus,.rsvp-box textarea:focus{border-color:var(--blush)}
+.rsvp-box select option{background:var(--card)}
+.rsvp-box label{font-size:8px;letter-spacing:.4em;text-transform:uppercase;color:var(--blush);display:block;margin-bottom:4px;font-family:'Josefin Sans',sans-serif;font-weight:100}
+.rsvp-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.btn-rsvp{background:linear-gradient(135deg,var(--rose),var(--deep));color:#fff;border:none;padding:14px;font-family:'Josefin Sans',sans-serif;font-size:9px;font-weight:400;letter-spacing:.4em;text-transform:uppercase;cursor:none;width:100%;transition:opacity .3s}
+.btn-rsvp:hover{opacity:.85}
+#rsvp-ok{display:none;text-align:center;padding:24px}
+#rsvp-ok .oi{font-size:48px;margin-bottom:10px}
+#rsvp-ok p{font-family:'Pinyon Script',cursive;font-size:26px;color:var(--blush)}
+
+/* ══ S5 REGALOS ══ */
+#s5{background:#120609}
+.gift-opts{display:flex;flex-direction:column;gap:12px;width:100%;max-width:430px;position:relative;z-index:1}
+.gc{background:rgba(26,13,18,.7);border:1px solid rgba(255,182,193,.15);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.gc .gi{display:flex;align-items:center;gap:11px}
+.gc .gico{font-size:22px}
+.gc .gt{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--blush);margin-bottom:3px;font-family:'Josefin Sans',sans-serif;font-weight:100}
+.gc .gv{font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:var(--mid)}
+.copy-btn{background:transparent;border:1px solid var(--blush);color:var(--blush);font-family:'Josefin Sans',sans-serif;font-size:8px;letter-spacing:.3em;text-transform:uppercase;padding:7px 12px;cursor:none;transition:all .3s;white-space:nowrap;font-weight:300}
+.copy-btn:hover,.copy-btn.cp{background:var(--blush);color:var(--dark)}
+.mp-btn{display:inline-flex;align-items:center;gap:8px;background:#009ee3;color:#fff;text-decoration:none;padding:11px 22px;font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:.2em;text-transform:uppercase;margin-top:6px;transition:opacity .3s;cursor:none;font-weight:300}
+.mp-btn:hover{opacity:.85}
+
+/* ══ S6 CANCIONES ══ */
+#s6{background:var(--dark)}
+.sf{max-width:430px;width:100%;display:flex;flex-direction:column;gap:11px;position:relative;z-index:1}
+.sf input{width:100%;padding:12px 14px;border:1px solid rgba(255,182,193,.2);background:rgba(26,13,18,.7);font-family:'Josefin Sans',sans-serif;font-size:12px;color:var(--white);outline:none;transition:border-color .3s;font-weight:300}
+.sf input:focus{border-color:var(--blush)}
+.sf label{font-size:8px;letter-spacing:.4em;text-transform:uppercase;color:var(--blush);display:block;margin-bottom:4px;font-family:'Josefin Sans',sans-serif;font-weight:100}
+.btn-song{background:transparent;border:1px solid var(--rose);color:var(--rose);padding:12px;font-family:'Josefin Sans',sans-serif;font-size:9px;font-weight:400;letter-spacing:.35em;text-transform:uppercase;cursor:none;transition:all .3s;width:100%;position:relative;z-index:1}
+.btn-song:hover{background:var(--rose);color:#fff}
+.sl{max-width:430px;width:100%;margin-top:16px;display:flex;flex-direction:column;gap:7px;position:relative;z-index:1}
+.si{background:rgba(26,13,18,.7);border:1px solid rgba(255,182,193,.1);padding:10px 16px;display:flex;align-items:center;gap:10px}
+.si .sn{font-size:14px;color:var(--rose)}
+.si .sti{font-size:12px;color:var(--white);font-family:'Josefin Sans',sans-serif}
+.si .sar{font-size:10px;color:var(--mid);font-family:'Josefin Sans',sans-serif}
+
+/* ══ S7 GALERÍA ══ */
+#s7{background:#120609}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:540px;width:100%;position:relative;z-index:1}
+.gph{aspect-ratio:1;background:var(--card);overflow:hidden;position:relative;cursor:none;border:1px solid rgba(255,182,193,.08)}
+.gph img{width:100%;height:100%;object-fit:cover;transition:transform .4s;display:block}
+.gph:hover img{transform:scale(1.1)}
+.gph .ov{position:absolute;inset:0;background:rgba(26,13,18,0);transition:background .3s;display:flex;align-items:center;justify-content:center}
+.gph:hover .ov{background:rgba(194,24,91,.22)}
+.gph .ov span{color:#fff;font-size:22px;opacity:0;transition:opacity .3s}
+.gph:hover .ov span{opacity:1}
+.gallery-note{font-size:9px;letter-spacing:.25em;color:var(--mid);margin-top:12px;text-align:center;position:relative;z-index:1;font-family:'Josefin Sans',sans-serif;font-weight:100}
+#lb{display:none;position:fixed;inset:0;background:rgba(26,13,18,.96);z-index:900;align-items:center;justify-content:center;padding:20px}
+#lb.open{display:flex}
+#lb img{max-width:90vw;max-height:85vh;object-fit:contain;border:1px solid var(--blush)}
+#lb-x{position:fixed;top:18px;right:22px;background:none;border:none;color:var(--blush);font-size:28px;cursor:none;z-index:901;font-family:'Josefin Sans',sans-serif;font-weight:100}
+#lb-p,#lb-n{position:fixed;top:50%;transform:translateY(-50%);background:none;border:1px solid rgba(255,182,193,.35);color:var(--blush);font-size:22px;padding:11px 15px;cursor:none;z-index:901;transition:background .2s}
+#lb-p{left:14px}#lb-n{right:14px}
+#lb-p:hover,#lb-n:hover{background:rgba(255,182,193,.12)}
+
+/* ══ S8 CIERRE ══ */
+#s8{background:var(--dark);min-height:60vh}
+#s8::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%,rgba(255,182,193,.06),transparent 70%)}
+.cf{font-size:52px;margin-bottom:16px;animation:cfloat 3s ease-in-out infinite;position:relative;z-index:1}
+@keyframes cfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.cm{font-family:'Pinyon Script',cursive;font-size:clamp(22px,4.5vw,34px);color:var(--mid);text-align:center;max-width:420px;line-height:1.5;margin-bottom:18px;position:relative;z-index:1}
+.wa-btn{display:inline-flex;align-items:center;gap:8px;background:#25d366;color:#fff;text-decoration:none;padding:13px 26px;font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:.25em;text-transform:uppercase;transition:opacity .3s;cursor:none;position:relative;z-index:1;font-weight:300}
+.wa-btn:hover{opacity:.85}
+
+@media(max-width:480px){
+  .d-grid,.rsvp-row{grid-template-columns:1fr}
+  .d-full{grid-column:auto}
+  .gallery{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-ring"></div>
+
+<nav id="nav">
+  <button class="nd active" onclick="goTo('s0')"></button>
+  <button class="nd" onclick="goTo('s1')"></button>
+  <button class="nd" onclick="goTo('s2')"></button>
+  <button class="nd" onclick="goTo('s3')"></button>
+  <button class="nd" onclick="goTo('s4')"></button>
+  <button class="nd" onclick="goTo('s5')"></button>
+  <button class="nd" onclick="goTo('s6')"></button>
+  <button class="nd" onclick="goTo('s7')"></button>
+</nav>
+
+<button id="mbtn" onclick="toggleMusic()">🎵</button>
+<div id="mlbl">♪ Tocá para escuchar</div>
+<div style="position:fixed;bottom:-9999px;left:-9999px;width:1px;height:1px;overflow:hidden;pointer-events:none;">
+  <iframe id="yt-player" src="" allow="autoplay" style="width:1px;height:1px;border:none;"></iframe>
+</div>
+
+<!-- ══ S0 PORTADA ══ -->
+<section id="s0">
+  <div class="slider" id="slider">
+    <div class="slide active" style="background-image:url('https://images.unsplash.com/photo-1512909006721-3d6018887383?w=1400&q=80')"></div>
+    <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1490750967868-88df5691cc05?w=1400&q=80')"></div>
+    <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1519741497674-611481863552?w=1400&q=80')"></div>
+    <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1528183429752-a97d0bf99b5a?w=1400&q=80')"></div>
+  </div>
+  <div class="ov-dark"></div>
+  <div class="ov-color"></div>
+  <canvas id="glitter"></canvas>
+
+  <!-- moños decorativos -->
+  <div class="bow" style="top:8%;left:6%;animation-duration:4s">🎀</div>
+  <div class="bow" style="top:12%;right:8%;animation-duration:5s;animation-delay:-2s">🎀</div>
+  <div class="bow" style="bottom:15%;left:4%;animation-duration:6s;animation-delay:-1s">🌸</div>
+  <div class="bow" style="bottom:20%;right:5%;animation-duration:4.5s;animation-delay:-3s">🌸</div>
+  <div class="bow" style="top:40%;left:2%;animation-duration:5.5s;animation-delay:-.5s;font-size:16px">🎀</div>
+  <div class="bow" style="top:35%;right:3%;animation-duration:3.5s;animation-delay:-2.5s;font-size:16px">🌸</div>
+
+  <div class="hero-content">
+    <div class="hero-tag">✦ una noche especial ✦</div>
+    <div class="hero-15">15</div>
+    <div class="hero-años">años · coquette</div>
+    <div class="hero-name">Valentina</div>
+    <div class="gold-line"></div>
+    <div class="hero-date">Sábado 14 de Junio · 20:30 hs</div>
+  </div>
+
+  <div class="sdots" id="sdots"></div>
+  <div class="hero-scroll">Ver invitación<div class="scroll-arr"></div></div>
+</section>
+
+<!-- ══ S1 DETALLES ══ -->
+<section id="s1">
+  <div class="sec-title">La Fiesta</div>
+  <p class="sec-sub">todos los detalles</p>
+  <div class="d-grid">
+    <div class="d-card"><div class="di">🌸</div><div class="dl">Fecha</div><div class="dv">Sábado<br>14 de Junio, 2025</div></div>
+    <div class="d-card"><div class="di">🕗</div><div class="dl">Hora</div><div class="dv">20:30 hs<br><small style="font-size:12px;color:var(--mid)">Recepción 20:00</small></div></div>
+    <div class="d-card"><div class="di">📍</div><div class="dl">Lugar</div><div class="dv">Salón Versailles<br>Av. Belgrano 1250</div></div>
+    <div class="d-card"><div class="di">🎀</div><div class="dl">Dress Code</div><div class="dv">Romántico<br>Pasteles y encajes</div></div>
+    <div class="d-card d-full">
+      <div class="dl" style="margin-bottom:10px">Cuenta regresiva</div>
+      <div class="cd">
+        <div class="cdb"><div class="cn" id="cd-d">--</div><div class="cl">días</div></div>
+        <div class="cdb"><div class="cn" id="cd-h">--</div><div class="cl">horas</div></div>
+        <div class="cdb"><div class="cn" id="cd-m">--</div><div class="cl">min</div></div>
+        <div class="cdb"><div class="cn" id="cd-s">--</div><div class="cl">seg</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PARALLAX 1 ══ -->
+<div class="px-section" id="px1">
+  <div class="px-bg" style="background-image:url('https://images.unsplash.com/photo-1490750967868-88df5691cc05?w=1400&q=80')"></div>
+  <div class="px-ov" style="background:linear-gradient(135deg,rgba(26,13,18,.6),rgba(194,24,91,.15),rgba(26,13,18,.6))"></div>
+  <div class="px-content">
+    <div class="px-tag">✦ para valentina ✦</div>
+    <div class="px-quote">"Que este sea el comienzo<br>de los años más hermosos"</div>
+    <div class="px-line"></div>
+    <div class="px-sub">🎀 Mis Quince · Coquette 🎀</div>
+  </div>
+</div>
+
+<!-- ══ S2 MAPA ══ -->
+<section id="s2">
+  <div class="sec-title">Cómo Llegar</div>
+  <p class="sec-sub">ubicación del evento</p>
+  <div class="map-wrap">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3559.1!2d-64.2667!3d-27.7833!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjfCsDQ3JzAwLjAiUyA2NMKwMTYnMDAuMCJX!5e0!3m2!1ses!2sar!4v1234567890" allowfullscreen="" loading="lazy"></iframe>
+  </div>
+  <div class="map-acts">
+    <a class="map-btn fill" href="https://maps.google.com/?q=Av.+Belgrano+1250+Santiago+del+Estero" target="_blank">📍 Google Maps</a>
+    <a class="map-btn" href="https://waze.com/ul?q=Av+Belgrano+1250+Santiago+del+Estero" target="_blank">🚗 Waze</a>
+  </div>
+</section>
+
+<!-- ══ S3 DRESS CODE ══ -->
+<section id="s3">
+  <div class="sec-title">Dress Code</div>
+  <p class="sec-sub">vestimenta sugerida</p>
+  <div class="dc-pills">
+    <div class="dcp">Romántico y elegante</div>
+    <div class="dcp">Pasteles y rosas</div>
+    <div class="dcp">Encajes bienvenidos</div>
+    <div class="dcp">Sin negro por favor</div>
+  </div>
+  <div class="sw-wrap">
+    <div class="sw" style="background:#ffb6c1"></div>
+    <div class="sw" style="background:#ffc8d5"></div>
+    <div class="sw" style="background:#f8bbd9"></div>
+    <div class="sw" style="background:#e8d5f0"></div>
+    <div class="sw" style="background:#ffeeff"></div>
+    <div class="sw" style="background:#ffffff;border-color:#ffb6c1"></div>
+  </div>
+  <p class="dc-note">✦ Una noche para brillar con dulzura ✦</p>
+</section>
+
+<!-- ══ PARALLAX 2 ══ -->
+<div class="px-section" id="px2">
+  <div class="px-bg" style="background-image:url('https://images.unsplash.com/photo-1528183429752-a97d0bf99b5a?w=1400&q=80')"></div>
+  <div class="px-ov" style="background:linear-gradient(135deg,rgba(26,13,18,.55),rgba(255,182,193,.12),rgba(26,13,18,.55))"></div>
+  <div class="px-content">
+    <div class="px-tag">✦ esta noche ✦</div>
+    <div class="px-quote">"El amor florece<br>donde hay alegría"</div>
+    <div class="px-line"></div>
+    <div class="px-sub">🌸 14 de Junio · 20:30 hs 🌸</div>
+  </div>
+</div>
+
+<!-- ══ S4 RSVP ══ -->
+<section id="s4">
+  <div class="sec-title">Confirmá Asistencia</div>
+  <p class="sec-sub">antes del 7 de junio</p>
+  <div id="rsvp-form-wrap">
+    <div class="rsvp-box">
+      <div><label>Tu nombre completo</label><input type="text" id="rn" placeholder="Ej: María González"></div>
+      <div class="rsvp-row">
+        <div><label>¿Asistís?</label>
+          <select id="ra"><option value="">Seleccioná...</option><option value="si">✅ Sí, voy</option><option value="no">❌ No puedo</option></select>
+        </div>
+        <div><label>Personas</label>
+          <select id="rq"><option value="1">1 persona</option><option value="2">2 personas</option><option value="3">3 personas</option></select>
+        </div>
+      </div>
+      <div><label>Restricciones alimenticias</label><input type="text" id="rf" placeholder="Opcional"></div>
+      <div><label>Mensaje para Valentina</label><textarea id="rm" rows="3" placeholder="Escribile algo especial..."></textarea></div>
+      <button class="btn-rsvp" onclick="submitRsvp()">Confirmar asistencia 🌸</button>
+    </div>
+  </div>
+  <div id="rsvp-ok"><div class="oi">🌸</div><p id="rom">¡Gracias! Tu asistencia fue confirmada.</p></div>
+</section>
+
+<!-- ══ S5 REGALOS ══ -->
+<section id="s5">
+  <div class="sec-title">Mesa de Regalos</div>
+  <p class="sec-sub">para hacerla feliz</p>
+  <div class="gift-opts">
+    <div class="gc">
+      <div class="gi"><div class="gico">🏦</div><div><div class="gt">Transferencia</div><div class="gv">CBU: 0000003100012345678901</div></div></div>
+      <button class="copy-btn" onclick="cp('0000003100012345678901',this)">Copiar</button>
+    </div>
+    <div class="gc">
+      <div class="gi"><div class="gico">💳</div><div><div class="gt">Alias</div><div class="gv">valentina.15.regalo</div></div></div>
+      <button class="copy-btn" onclick="cp('valentina.15.regalo',this)">Copiar</button>
+    </div>
+    <div class="gc" style="flex-direction:column;align-items:flex-start;gap:10px">
+      <div class="gi"><div class="gico">💙</div><div><div class="gt">Mercado Pago</div><div class="gv">Enviá directo a la cuenta</div></div></div>
+      <a class="mp-btn" href="https://mpago.la/ejemplo" target="_blank">Enviar por Mercado Pago</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ S6 CANCIONES ══ -->
+<section id="s6">
+  <div class="sec-title">Sugerí una Canción</div>
+  <p class="sec-sub">para el playlist de la noche</p>
+  <div class="sf">
+    <div><label>Nombre de la canción</label><input type="text" id="st" placeholder="Ej: A Time For Us"></div>
+    <div><label>Artista</label><input type="text" id="sa" placeholder="Ej: Andy Williams"></div>
+    <button class="btn-song" onclick="addSong()">Agregar al playlist ✦</button>
+  </div>
+  <div class="sl" id="sl">
+    <div class="si"><span class="sn">🌸</span><div><div class="sti">A Time For Us</div><div class="sar">Andy Williams</div></div></div>
+    <div class="si"><span class="sn">🌸</span><div><div class="sti">Can't Help Falling in Love</div><div class="sar">Elvis Presley</div></div></div>
+  </div>
+</section>
+
+<!-- ══ S7 GALERÍA ══ -->
+<section id="s7">
+  <div class="sec-title">Galería</div>
+  <p class="sec-sub">momentos especiales</p>
+  <div class="gallery" id="gallery"></div>
+  <p class="gallery-note">✦ Tocá una foto para verla más grande ✦</p>
+</section>
+
+<!-- ══ S8 CIERRE ══ -->
+<section id="s8">
+  <div class="cf">🌸</div>
+  <p class="cm">"Que este sea el comienzo de los años más hermosos de tu vida, Valentina"</p>
+  <div style="width:200px;height:1px;background:linear-gradient(90deg,transparent,var(--blush),var(--rose),transparent);margin:16px auto 20px;position:relative;z-index:1"></div>
+  <p style="font-size:9px;letter-spacing:.4em;color:var(--blush);text-transform:uppercase;margin-bottom:22px;position:relative;z-index:1;font-family:'Josefin Sans',sans-serif;font-weight:100">Con amor · Familia Méndez</p>
+  <a class="wa-btn" href="https://api.whatsapp.com/send?text=Te+invito+a+los+15+de+Valentina+🌸" target="_blank">
+    <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.533 5.851L.053 23.947a.5.5 0 0 0 .608.608l6.097-1.48A11.95 11.95 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.882a9.88 9.88 0 0 1-5.039-1.374l-.361-.214-3.741.981.998-3.641-.235-.374A9.859 9.859 0 0 1 2.118 12C2.118 6.538 6.538 2.118 12 2.118c5.463 0 9.882 4.42 9.882 9.882 0 5.463-4.419 9.882-9.882 9.882z"/></svg>
+    Compartir invitación
+  </a>
+</section>
+
+<!-- lightbox -->
+<div id="lb"><button id="lb-x" onclick="closeLb()">✕</button><button id="lb-p" onclick="lbNav(-1)">‹</button><img id="lb-img" src="" alt=""><button id="lb-n" onclick="lbNav(1)">›</button></div>
+
+<script>
+/* cursor */
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
+document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';});
+
+/* glitter — pétalos rosas */
+const gc=document.getElementById('glitter'),gx=gc.getContext('2d');
+function grsz(){gc.width=innerWidth;gc.height=innerHeight}grsz();window.addEventListener('resize',grsz);
+const PCOLS=['#ffb6c1','#ffc8d5','#ffffff','#ff8da1','#ffeeff','#f8bbd9'];
+let gpts=[];
+for(let i=0;i<80;i++)gpts.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*4+2,rot:Math.random()*Math.PI*2,spd:Math.random()*.5+.15,drift:(Math.random()-.5)*.4,spin:(Math.random()-.5)*.03,col:PCOLS[Math.floor(Math.random()*PCOLS.length)],alpha:Math.random()*.45+.15,pulse:Math.random()*Math.PI*2,tw:Math.random()*.03+.008});
+(function loop(){gx.clearRect(0,0,gc.width,gc.height);gpts.forEach(p=>{p.pulse+=p.tw;p.y-=p.spd;p.x+=p.drift;p.rot+=p.spin;if(p.y<-10){p.y=gc.height+10;p.x=Math.random()*gc.width;}const a=p.alpha*(0.5+0.5*Math.sin(p.pulse));gx.save();gx.translate(p.x,p.y);gx.rotate(p.rot);gx.globalAlpha=a;gx.fillStyle=p.col;gx.beginPath();gx.ellipse(0,0,p.r*.45,p.r,0,0,Math.PI*2);gx.fill();gx.restore();});requestAnimationFrame(loop);})();
+
+/* slider */
+const slides=document.querySelectorAll('.slide');
+const sdots=document.getElementById('sdots');
+let cur_s=0;
+slides.forEach((_,i)=>{const d=document.createElement('div');d.className='sdot'+(i===0?' active':'');d.onclick=()=>goSlide(i);sdots.appendChild(d);});
+function goSlide(i){slides[cur_s].classList.remove('active');document.querySelectorAll('.sdot')[cur_s].classList.remove('active');cur_s=i;slides[cur_s].classList.add('active');document.querySelectorAll('.sdot')[cur_s].classList.add('active');}
+setInterval(()=>goSlide((cur_s+1)%slides.length),5000);
+
+/* nav */
+const SIDS=['s0','s1','s2','s3','s4','s5','s6','s7','s8'];
+const nds=document.querySelectorAll('.nd');
+function goTo(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
+const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){const i=SIDS.indexOf(x.target.id);nds.forEach(n=>n.classList.remove('active'));if(i>=0)nds[i]?.classList.add('active')}}),{threshold:.4});
+SIDS.forEach(id=>{const el=document.getElementById(id);if(el)obs.observe(el)});
+
+/* parallax */
+const pxObs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')}),{threshold:.3});
+document.querySelectorAll('.px-section').forEach(s=>pxObs.observe(s));
+window.addEventListener('scroll',()=>{document.querySelectorAll('.px-bg').forEach(bg=>{const s=bg.closest('.px-section');const r=s.getBoundingClientRect();bg.style.transform=`translateY(${r.top*.35}px)`;});});
+
+/* countdown */
+const ev=new Date('2025-06-14T20:30:00');
+function upCD(){let d=ev-new Date();if(d<0)d=0;document.getElementById('cd-d').textContent=String(Math.floor(d/86400000)).padStart(2,'0');document.getElementById('cd-h').textContent=String(Math.floor((d%86400000)/3600000)).padStart(2,'0');document.getElementById('cd-m').textContent=String(Math.floor((d%3600000)/60000)).padStart(2,'0');document.getElementById('cd-s').textContent=String(Math.floor((d%60000)/1000)).padStart(2,'0');}
+upCD();setInterval(upCD,1000);
+
+/* rsvp */
+function submitRsvp(){const n=document.getElementById('rn').value.trim(),a=document.getElementById('ra').value;if(!n||!a){alert('Completá tu nombre y si asistís.');return}const q=document.getElementById('rq').value,f=document.getElementById('rf').value,m=document.getElementById('rm').value;window.open(`https://wa.me/5493814000000?text=${encodeURIComponent(`15 de Valentina 🌸\nNombre: ${n}\nAsistencia: ${a==='si'?'✅ Sí':'❌ No'}\nPersonas: ${q}\nRest: ${f||'—'}\nMensaje: ${m||'—'}`)}`, '_blank');document.getElementById('rsvp-form-wrap').style.display='none';document.getElementById('rsvp-ok').style.display='block';document.getElementById('rom').textContent=`¡Gracias, ${n}! 🌸`;}
+
+/* copy */
+function cp(txt,btn){navigator.clipboard.writeText(txt).then(()=>{btn.textContent='¡Copiado!';btn.classList.add('cp');setTimeout(()=>{btn.textContent='Copiar';btn.classList.remove('cp')},2000)})}
+
+/* songs */
+function addSong(){const t=document.getElementById('st').value.trim(),a=document.getElementById('sa').value.trim();if(!t)return;const li=document.getElementById('sl'),d=document.createElement('div');d.className='si';d.innerHTML=`<span class="sn">🌸</span><div><div class="sti">${t}</div><div class="sar">${a||'—'}</div></div>`;li.appendChild(d);document.getElementById('st').value='';document.getElementById('sa').value='';}
+
+/* galería */
+const FOTOS=['https://picsum.photos/seed/coq1/600/600','https://picsum.photos/seed/coq2/600/600','https://picsum.photos/seed/coq3/600/600','https://picsum.photos/seed/coq4/600/600','https://picsum.photos/seed/coq5/600/600','https://picsum.photos/seed/coq6/600/600'];
+let lbIdx=0;
+document.addEventListener('DOMContentLoaded',()=>{
+  const gal=document.getElementById('gallery');
+  FOTOS.forEach((src,i)=>{const d=document.createElement('div');d.className='gph';d.innerHTML=`<img src="${src}" loading="lazy"><div class="ov"><span>🌸</span></div>`;d.onclick=()=>openLb(i);gal.appendChild(d);});
+  document.getElementById('lb').addEventListener('click',e=>{if(e.target===document.getElementById('lb'))closeLb();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLb();if(e.key==='ArrowRight')lbNav(1);if(e.key==='ArrowLeft')lbNav(-1);});
+});
+function openLb(i){lbIdx=i;document.getElementById('lb-img').src=FOTOS[i];document.getElementById('lb').classList.add('open');}
+function closeLb(){document.getElementById('lb').classList.remove('open');}
+function lbNav(n){lbIdx=(lbIdx+n+FOTOS.length)%FOTOS.length;document.getElementById('lb-img').src=FOTOS[lbIdx];}
+
+/* youtube — sin canción asignada aún */
+let isPlaying=false;
+const YT_ID='';
+function toggleMusic(){
+  const btn=document.getElementById('mbtn'),lbl=document.getElementById('mlbl'),p=document.getElementById('yt-player');
+  if(!YT_ID){lbl.textContent='♪ Agregá una canción';lbl.classList.add('show');setTimeout(()=>lbl.classList.remove('show'),3000);return;}
+  if(!isPlaying){isPlaying=true;p.src=`https://www.youtube-nocookie.com/embed/${YT_ID}?autoplay=1&loop=1&playlist=${YT_ID}&controls=0&rel=0&modestbranding=1`;btn.classList.add('playing');btn.textContent='🎼';lbl.textContent='♪ Reproduciendo...';lbl.classList.add('show');setTimeout(()=>lbl.classList.remove('show'),3000);}
+  else{isPlaying=false;p.src='';btn.classList.remove('playing');btn.textContent='🎵';}
+}
+setTimeout(()=>{const l=document.getElementById('mlbl');l.textContent='♪ Tocá para escuchar música';l.classList.add('show');setTimeout(()=>l.classList.remove('show'),3500);},2800);
+</script>
+</body>
+</html>
